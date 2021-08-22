@@ -11,14 +11,29 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
 
     private bool _facingRight = true;
+    
+    private bool _isGrounded;
+    public Transform groundCheck;
+    public float checkRadius;
+    public LayerMask whatIsGround;
+    
+    //jumping
+    [SerializeField] private int _extraJumps;
+    private int _extraJumpsValue = 1;
+    
 
     private void Start()
     {
+        _extraJumps = _extraJumpsValue;
         rb = GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()
     {
+        //make a child to a player and call it Ground check and place it to the "legs" of the player
+        //then set it in inspector for this script and add .5 to a radius and set what is going to be a ground (it should be a layer)
+        _isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+   
         _moveInput = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(_moveInput * _speed, rb.velocity.y);
 
@@ -28,6 +43,24 @@ public class Player : MonoBehaviour
         }else if(_facingRight == true && _moveInput < 0)
         {
             Flip();
+        }
+    }
+    
+    private void Update()
+    {
+        if(_isGrounded == true)
+        {
+            _extraJumps = _extraJumpsValue;
+        }
+    
+    
+        if(Input.GetKeyDown(KeyCode.UpArrow) && _extrajumps > 0)
+        {
+            rb.velocity = Vector2.up * _jumpForce;
+            _extraJumps--;
+        } else if(Input.GetKeyDown(KeyCode.UpArrow) && _extrajumps == 0 && _isGrounded == true)
+        {
+            rb.velocity = Vector2.up * _jumpForce;
         }
     }
 
