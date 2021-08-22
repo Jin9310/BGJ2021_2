@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float _speed;
-    [SerializeField] private float _jumpForce;
-    [SerializeField] private float _moveInput;
+    private float _speed = 5f;
+    private float _jumpForce = 7f;
+    private float _moveInput;
 
     private Rigidbody2D rb;
 
     private bool _facingRight = true;
-    
-    private bool _isGrounded;
+
+    [SerializeField] private bool _isGrounded;
     public Transform groundCheck;
     public float checkRadius;
     public LayerMask whatIsGround;
@@ -30,8 +30,6 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //make a child to a player and call it Ground check and place it to the "legs" of the player
-        //then set it in inspector for this script and add .5 to a radius and set what is going to be a ground (it should be a layer)
         _isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
    
         _moveInput = Input.GetAxis("Horizontal");
@@ -54,11 +52,11 @@ public class Player : MonoBehaviour
         }
     
     
-        if(Input.GetKeyDown(KeyCode.UpArrow) && _extrajumps > 0)
+        if(Input.GetKeyDown(KeyCode.UpArrow) && _extraJumps > 0)
         {
             rb.velocity = Vector2.up * _jumpForce;
             _extraJumps--;
-        } else if(Input.GetKeyDown(KeyCode.UpArrow) && _extrajumps == 0 && _isGrounded == true)
+        } else if(Input.GetKeyDown(KeyCode.UpArrow) && _extraJumps == 0 && _isGrounded == true)
         {
             rb.velocity = Vector2.up * _jumpForce;
         }
