@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     private float _speed = 5f;
-    private float _jumpForce = 7f;
+    private float _jumpForce = 6f;
     private float _moveInput;
 
     private Rigidbody2D rb;
@@ -52,7 +51,9 @@ public class Player : MonoBehaviour
         }
     
     
-        if(Input.GetKeyDown(KeyCode.UpArrow) && _extraJumps > 0)
+        if((Input.GetKeyDown(KeyCode.UpArrow) || 
+            Input.GetKeyDown(KeyCode.W) || 
+            Input.GetKeyDown(KeyCode.Space)) && _extraJumps > 0)
         {
             rb.velocity = Vector2.up * _jumpForce;
             _extraJumps--;
@@ -68,5 +69,13 @@ public class Player : MonoBehaviour
         Vector3 Scaler = transform.localScale;
         Scaler.x *= -1;
         transform.localScale = Scaler;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("OutOfTheScreen"))
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
     }
 }
