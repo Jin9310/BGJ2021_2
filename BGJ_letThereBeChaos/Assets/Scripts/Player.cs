@@ -25,6 +25,11 @@ public class Player : MonoBehaviour
     private float dashDistance = 7f;
     private bool isDashing;
     [SerializeField] private bool dashIsReady = true;
+    public GameObject dummy;
+
+    //dust
+    public GameObject dustEffect;
+    private bool _spawnDust = false;
 
     private void Start()
     {
@@ -35,7 +40,6 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         _isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-
         _moveInput = Input.GetAxis("Horizontal");
 
         if (!isDashing)
@@ -54,42 +58,29 @@ public class Player : MonoBehaviour
     
     private void Update()
     {
-        //dashing
-        if (dashIsReady == true)
-        {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
-            {
-                dashIsReady = false;
-
-                if (_facingRight == true)
-                {
-                    StartCoroutine(Dash(1));
-                }
-                else if (_facingRight == false)
-                {
-                    StartCoroutine(Dash(-1));
-                }
-            }
-        }
-        
+        Dash();
 
         if (_isGrounded == true)
         {
             _extraJumps = _extraJumpsValue;
             dashIsReady = true;
         }
-    
-    
-        if((Input.GetKeyDown(KeyCode.UpArrow) || 
-            Input.GetKeyDown(KeyCode.W) || 
-            Input.GetKeyDown(KeyCode.Space)) && _extraJumps > 0)
+        Jump();
+
+        if(_isGrounded == true)
         {
-            rb.velocity = Vector2.up * _jumpForce;
-            _extraJumps--;
-        } else if(Input.GetKeyDown(KeyCode.UpArrow) && _extraJumps == 0 && _isGrounded == true)
-        {
-            rb.velocity = Vector2.up * _jumpForce;
+            if (_spawnDust == true)
+            {
+                Instantiate(dustEffect, new Vector2(transform.position.x, transform.position.y - .5f), Quaternion.identity);
+                _spawnDust = false;
+            }
         }
+        else
+        {
+            _spawnDust = true;
+        }
+
+
     }
 
     void Flip()
@@ -108,6 +99,43 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void Jump()
+    {
+        if ((Input.GetKeyDown(KeyCode.UpArrow) ||
+            Input.GetKeyDown(KeyCode.W) ||
+            Input.GetKeyDown(KeyCode.Space)) && _extraJumps > 0)
+        {
+            rb.velocity = Vector2.up * _jumpForce;
+            _extraJumps--;
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow) && _extraJumps == 0 && _isGrounded == true)
+        {
+            rb.velocity = Vector2.up * _jumpForce;
+        }
+    }
+
+    private void Dash()
+    {
+        if (dashIsReady == true)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+
+                StartCoroutine(Dummy());
+                dashIsReady = false;
+
+                if (_facingRight == true)
+                {
+                    StartCoroutine(Dash(1));
+                }
+                else if (_facingRight == false)
+                {
+                    StartCoroutine(Dash(-1));
+                }
+            }
+        }
+    }
+
     IEnumerator Dash(float direction)
     {
         isDashing = true;
@@ -118,5 +146,22 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(.2f);
         isDashing = false;
         rb.gravityScale = gravity;
+    }
+
+    IEnumerator Dummy()
+    {
+        Instantiate(dummy, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(.05f);
+        Instantiate(dummy, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(.05f);
+        Instantiate(dummy, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(.05f);
+        Instantiate(dummy, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(.05f);
+        Instantiate(dummy, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(.05f);
+        Instantiate(dummy, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(.05f);
+        Instantiate(dummy, transform.position, Quaternion.identity);
     }
 }

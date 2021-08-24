@@ -9,8 +9,11 @@ public class FallingPlatform : MonoBehaviour
 
     [SerializeField] private bool _beginTheDescent = false;
 
+    Animator anim;
+
     private void Start()
     {
+        anim = GetComponent<Animator>();
         _platformSpeed = Random.Range(1, 5);
     }
 
@@ -36,6 +39,7 @@ public class FallingPlatform : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        StartCoroutine(TouchMe());
             _beginTheDescent = true;
     }
 
@@ -45,5 +49,12 @@ public class FallingPlatform : MonoBehaviour
         yield return new WaitForSeconds(1f);
         transform.Translate(Vector2.up * -5f * Time.deltaTime);
         KillMe();
+    }
+
+    IEnumerator TouchMe()
+    {
+        anim.SetBool("touched", true);
+        yield return new WaitForSeconds(.1f);
+        anim.SetBool("touched", false);
     }
 }
