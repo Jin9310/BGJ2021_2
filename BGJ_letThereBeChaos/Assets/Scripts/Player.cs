@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,7 +20,11 @@ public class Player : MonoBehaviour
     //jumping
     [SerializeField] private int _extraJumps;
     private int _extraJumpsValue = 1;
-    
+
+    //dash
+    private float dashDistance = 7f;
+    private bool isDashing;
+    [SerializeField] private bool dashIsReady = true;
 
     private void Start()
     {
@@ -30,9 +35,13 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         _isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-   
+
         _moveInput = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(_moveInput * _speed, rb.velocity.y);
+
+        if (!isDashing)
+        {
+            rb.velocity = new Vector2(_moveInput * _speed, rb.velocity.y);
+        }
 
         if(_facingRight == false && _moveInput > 0)
         {
@@ -45,9 +54,29 @@ public class Player : MonoBehaviour
     
     private void Update()
     {
-        if(_isGrounded == true)
+        //dashing
+        if (dashIsReady == true)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                dashIsReady = false;
+
+                if (_facingRight == true)
+                {
+                    StartCoroutine(Dash(1));
+                }
+                else if (_facingRight == false)
+                {
+                    StartCoroutine(Dash(-1));
+                }
+            }
+        }
+        
+
+        if (_isGrounded == true)
         {
             _extraJumps = _extraJumpsValue;
+            dashIsReady = true;
         }
     
     
@@ -77,5 +106,17 @@ public class Player : MonoBehaviour
         {
             SceneManager.LoadScene("SampleScene");
         }
+    }
+
+    IEnumerator Dash(float direction)
+    {
+        isDashing = true;
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
+        rb.AddForce(new Vector2(dashDistance * direction, 0f), ForceMode2D.Impulse);
+        float gravity = rb.gravityScale;
+        rb.gravityScale = 0;
+        yield return new WaitForSeconds(.2f);
+        isDashing = false;
+        rb.gravityScale = gravity;
     }
 }

@@ -37,7 +37,6 @@ public class FallingPlatform : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-            Debug.Log("contact!");
             _beginTheDescent = true;
     }
 }
