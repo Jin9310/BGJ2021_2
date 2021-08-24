@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class FallingPlatform : MonoBehaviour
@@ -18,13 +19,11 @@ public class FallingPlatform : MonoBehaviour
 
         if(_beginTheDescent == true)
         {
-            transform.Translate(Vector2.up * -5f * Time.deltaTime);
+            StartCoroutine(Fall());
         }else
         {
             transform.Translate(Vector2.up * _platformSpeed * Time.deltaTime);
         }
-        
-        KillMe();
     }
 
     private void KillMe()
@@ -38,5 +37,13 @@ public class FallingPlatform : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
             _beginTheDescent = true;
+    }
+
+    IEnumerator Fall()
+    {
+        
+        yield return new WaitForSeconds(1f);
+        transform.Translate(Vector2.up * -5f * Time.deltaTime);
+        KillMe();
     }
 }
