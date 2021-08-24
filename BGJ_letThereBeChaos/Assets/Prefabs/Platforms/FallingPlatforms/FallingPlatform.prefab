@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _beginTheDescent: 0
+  lm: {fileID: 3643036402124214904, guid: 46f7d8560b62ef141ae4114141bc74ac, type: 3}
 --- !u!95 &1528761945
 Animator:
   serializedVersion: 3

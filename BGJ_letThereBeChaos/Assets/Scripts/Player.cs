@@ -4,6 +4,10 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    public bool gotDoubleJump = false;
+    public bool playerFail = false;
+
+
     private float _speed = 5f;
     private float _jumpForce = 6f;
     private float _moveInput;
@@ -19,7 +23,10 @@ public class Player : MonoBehaviour
     
     //jumping
     [SerializeField] private int _extraJumps;
+    [SerializeField] private bool _extraJumpEnabled = false;
+    private int _basicJumpValue = 0;
     private int _extraJumpsValue = 1;
+    [SerializeField] private float oClock = 10;
 
     //dash
     private float dashDistance = 7f;
@@ -31,56 +38,91 @@ public class Player : MonoBehaviour
     public GameObject dustEffect;
     private bool _spawnDust = false;
 
+    public GameObject jumpPickup;
+    public LevelManager lm;
+
     private void Start()
     {
-        _extraJumps = _extraJumpsValue;
+        _extraJumps = _basicJumpValue;
         rb = GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()
     {
-        _isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-        _moveInput = Input.GetAxis("Horizontal");
 
-        if (!isDashing)
+        if (lm.startGame != false)
         {
-            rb.velocity = new Vector2(_moveInput * _speed, rb.velocity.y);
+
+            _isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+            _moveInput = Input.GetAxis("Horizontal");
+
+            if (!isDashing)
+            {
+                rb.velocity = new Vector2(_moveInput * _speed, rb.velocity.y);
+            }
+
+            if (_facingRight == false && _moveInput > 0)
+            {
+                Flip();
+            }
+            else if (_facingRight == true && _moveInput < 0)
+            {
+                Flip();
+            }
+
         }
 
-        if(_facingRight == false && _moveInput > 0)
-        {
-            Flip();
-        }else if(_facingRight == true && _moveInput < 0)
-        {
-            Flip();
-        }
+        
     }
     
     private void Update()
     {
-        Dash();
 
-        if (_isGrounded == true)
+        if (lm.startGame != false)
         {
-            _extraJumps = _extraJumpsValue;
-            dashIsReady = true;
-        }
-        Jump();
 
-        if(_isGrounded == true)
-        {
-            if (_spawnDust == true)
+            Dash();
+
+            if (_isGrounded == true)
             {
-                Instantiate(dustEffect, new Vector2(transform.position.x, transform.position.y - .5f), Quaternion.identity);
-                _spawnDust = false;
+                //enabling the double jumps
+                if (_extraJumpEnabled == true)
+                {
+                    gotDoubleJump = true;
+                    StartCoroutine(DoubleJumping());
+                }
+                else if (_extraJumpEnabled == false)
+                {
+                    gotDoubleJump = false;
+                    _extraJumps = _basicJumpValue;
+                }
+
+                dashIsReady = true;
             }
-        }
-        else
-        {
-            _spawnDust = true;
-        }
+            Jump();
+
+            if (_isGrounded == true)
+            {
+                if (_spawnDust == true)
+                {
+                    Instantiate(dustEffect, new Vector2(transform.position.x, transform.position.y - .5f), Quaternion.identity);
+                    _spawnDust = false;
+                }
+            }
+            else
+            {
+                _spawnDust = true;
+            }
+
+            if (_extraJumpEnabled == true)
+            {
+                oClock -= Time.deltaTime;
+            }
 
 
+        }
+
+         
     }
 
     void Flip()
@@ -95,7 +137,16 @@ public class Player : MonoBehaviour
     {
         if (collision.CompareTag("OutOfTheScreen"))
         {
-            SceneManager.LoadScene("SampleScene");
+            playerFail = true;
+            //SceneManager.LoadScene("SampleScene");
+        }
+
+        if (collision.CompareTag("JumpPwrUp"))
+        {
+            //Particle effect
+            Instantiate(jumpPickup, transform.position, Quaternion.identity);
+            //enable Doublejump for some time
+            _extraJumpEnabled = true;
         }
     }
 
@@ -163,5 +214,14 @@ public class Player : MonoBehaviour
         Instantiate(dummy, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(.05f);
         Instantiate(dummy, transform.position, Quaternion.identity);
+    }
+
+    IEnumerator DoubleJumping()
+    {
+        _extraJumps = _extraJumpsValue;
+        yield return new WaitForSeconds(oClock);
+        oClock = 10f;
+        _extraJumpEnabled = false;
+        _extraJumps = _basicJumpValue;
     }
 }
