@@ -6,6 +6,7 @@ TagManager:
   tags:
   - OutOfTheScreen
   - JumpPwrUp
+  - Dashing
   layers:
   - Default
   - TransparentFX

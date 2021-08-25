@@ -21,6 +21,7 @@ public class LevelManager : MonoBehaviour
     public bool startGame = false;
 
     public GameObject chaosCollection;
+    public GameObject chaosTwoCollection;
     public GameObject textAsGameObject;
     public Text text;
 
@@ -50,11 +51,12 @@ public class LevelManager : MonoBehaviour
     private bool startSecondTimer = false;
     private float secondStageTimer = 20f;
 
-    private bool secondStageOfChaos = false;
     //second stage variables
+    public bool secondStageOfChaos = false;
 
-    private bool thirdStageOfChaos = false;
     //third stage variables
+    public bool thirdStageOfChaos = false;
+    
 
 
     private void Start()
@@ -160,6 +162,9 @@ public class LevelManager : MonoBehaviour
             chaosCollection.gameObject.SetActive(false);
             doubleJumpCount++;
             startSecondTimer = true;
+
+            chaosTwoCollection.gameObject.SetActive(true);
+
         }
 
         //second stage timer

@@ -33,6 +33,8 @@ public class Player : MonoBehaviour
     private bool isDashing;
     [SerializeField] private bool dashIsReady = true;
     public GameObject dummy;
+    public bool _dashingEnabled = true;
+    public GameObject dashPickup;
 
     //dust
     public GameObject dustEffect;
@@ -54,6 +56,8 @@ public class Player : MonoBehaviour
 
         if (lm.startGame != false)
         {
+
+            
 
             _isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
             _moveInput = Input.GetAxis("Horizontal");
@@ -82,7 +86,6 @@ public class Player : MonoBehaviour
 
         if (lm.startGame != false)
         {
-
             Dash();
 
             if (_isGrounded == true)
@@ -151,6 +154,12 @@ public class Player : MonoBehaviour
             Instantiate(jumpPickup, transform.position, Quaternion.identity);
             //enable Doublejump for some time
             _extraJumpEnabled = true;
+        }
+
+        if (collision.CompareTag("Dashing"))
+        {
+            lm.Points(randomPointsFromUpgrade);
+            Instantiate(dashPickup, transform.position, Quaternion.identity);
         }
     }
 
