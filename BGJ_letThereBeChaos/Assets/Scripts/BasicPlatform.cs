@@ -8,7 +8,7 @@ public class BasicPlatform : MonoBehaviour
 
     Animator anim;
 
-    public LevelManager lm;
+    public bool pointsUp = false;
 
     private void Start()
     {
@@ -20,6 +20,7 @@ public class BasicPlatform : MonoBehaviour
     {
         transform.Translate(Vector2.up * _platformSpeed * Time.deltaTime);
         KillMe();
+
     }
 
     private void KillMe()
@@ -32,7 +33,6 @@ public class BasicPlatform : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        lm.keepScoreCount++;
         StartCoroutine(TouchMe());
     }
 

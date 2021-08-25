@@ -11,8 +11,6 @@ public class FallingPlatform : MonoBehaviour
 
     Animator anim;
 
-    public LevelManager lm;
-
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -41,7 +39,6 @@ public class FallingPlatform : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        lm.keepScoreCount++;
         StartCoroutine(TouchMe());
             _beginTheDescent = true;
     }

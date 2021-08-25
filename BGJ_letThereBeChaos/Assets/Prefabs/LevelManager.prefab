@@ -44,13 +44,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpCount: 0
-  keepScoreCount: 0
+  points: 0
   startGame: 0
   chaosCollection: {fileID: 0}
   textAsGameObject: {fileID: 0}
   text: {fileID: 0}
   textOfDoubleJump: {fileID: 0}
-  doubleJumpInd: {fileID: 0}
+  textOfDoubleJumpOFF: {fileID: 0}
+  textOfDash: {fileID: 0}
+  textOfDashOFF: {fileID: 0}
   pl: {fileID: 0}
   finalFrame: {fileID: 0}
   finalText: {fileID: 0}
+  scoreText: {fileID: 0}
+  basicPlatform: {fileID: 8355438339049737819, guid: a310f905efb8555438a4b81442153442, type: 3}

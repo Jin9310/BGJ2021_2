@@ -70,9 +70,7 @@ public class Player : MonoBehaviour
                 Flip();
             }
 
-        }
-
-        
+        }      
     }
     
     private void Update()
@@ -144,6 +142,7 @@ public class Player : MonoBehaviour
         if (collision.CompareTag("JumpPwrUp"))
         {
             //Particle effect
+            lm.points += 1;
             Instantiate(jumpPickup, transform.position, Quaternion.identity);
             //enable Doublejump for some time
             _extraJumpEnabled = true;
