@@ -41,6 +41,8 @@ public class Player : MonoBehaviour
     public GameObject jumpPickup;
     public LevelManager lm;
 
+    private int randomPointsFromUpgrade;
+
     private void Start()
     {
         _extraJumps = _basicJumpValue;
@@ -75,6 +77,8 @@ public class Player : MonoBehaviour
     
     private void Update()
     {
+
+        randomPointsFromUpgrade = Random.Range(2, 5);
 
         if (lm.startGame != false)
         {
@@ -141,8 +145,9 @@ public class Player : MonoBehaviour
 
         if (collision.CompareTag("JumpPwrUp"))
         {
+            //add random amount of points
+            lm.Points(randomPointsFromUpgrade);
             //Particle effect
-            lm.points += 1;
             Instantiate(jumpPickup, transform.position, Quaternion.identity);
             //enable Doublejump for some time
             _extraJumpEnabled = true;

@@ -12,7 +12,11 @@ public class LevelManager : MonoBehaviour
     private int anotherJumpCountBase = 0;
     private int randomJumpScore;
 
+
+    //POINTS SCORE
     public float points;
+    [SerializeField] private float pointTime;
+    private float pointTimeStart = 5;
 
     public bool startGame = false;
 
@@ -38,8 +42,15 @@ public class LevelManager : MonoBehaviour
     public BasicPlatform basicPlatform;
 
 
+    //CHAOS
+    private bool fistStageOfChaos = false;
+    private bool secondStageOfChaos = false;
+    private bool thirdStageOfChaos = false;
+
+
     private void Start()
     {
+        pointTime = pointTimeStart;
         anotherJumpCount = anotherJumpCountBase;
         Time.timeScale = 1;
         StartCoroutine(StartCountDown());
@@ -48,7 +59,7 @@ public class LevelManager : MonoBehaviour
     private void Update()
     {
         
-        scoreText.text = "score: " + points;
+       
 
         if(!startGame == false)
         {
@@ -60,6 +71,7 @@ public class LevelManager : MonoBehaviour
 
             if (jumpCount == 10)
             {
+                fistStageOfChaos = true;
                 StartCoroutine(ChaosOn());
                 //enter the chaos
                 // enable all spawners
@@ -88,6 +100,19 @@ public class LevelManager : MonoBehaviour
             Time.timeScale = 0;
         }
 
+        //POINTS = SCORE
+        scoreText.text = "score: " + points;
+
+        //adding points based on time - every 5s add some points
+        pointTime -= Time.deltaTime;
+        if(pointTime <= 0)
+        {
+            //give points
+            Points(2);
+            //restart timer
+            pointTime = pointTimeStart;
+        }
+
         //every fifth jump will get player random amount of score
         randomJumpScore = Random.Range(1,5);
         if(anotherJumpCount >= 5)
@@ -95,6 +120,8 @@ public class LevelManager : MonoBehaviour
             Points(randomJumpScore);
             anotherJumpCount = anotherJumpCountBase;
         }
+
+
 
 
     }
@@ -128,7 +155,15 @@ public class LevelManager : MonoBehaviour
 
     public void Points(int number)
     {
-        points += number;
+        //if chaos is ON the points are doubled
+        if(fistStageOfChaos == true)
+        {
+            points += number * 2;
+        }else
+        {
+            points += number;
+        }
+        
     }
 
     //countdown - then start the game
