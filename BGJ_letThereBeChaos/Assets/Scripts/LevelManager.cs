@@ -44,8 +44,17 @@ public class LevelManager : MonoBehaviour
 
     //CHAOS
     private bool fistStageOfChaos = false;
+    //first stage variables
+    [SerializeField] private int doubleJumpCount;
+    [SerializeField] private bool counted = false;
+    private bool startSecondTimer = false;
+    private float secondStageTimer = 20f;
+
     private bool secondStageOfChaos = false;
+    //second stage variables
+
     private bool thirdStageOfChaos = false;
+    //third stage variables
 
 
     private void Start()
@@ -76,6 +85,7 @@ public class LevelManager : MonoBehaviour
                 //enter the chaos
                 // enable all spawners
                 chaosCollection.gameObject.SetActive(true);
+                jumpCount++;
             }
         } 
 
@@ -96,12 +106,16 @@ public class LevelManager : MonoBehaviour
         if(pl.playerFail == true)
         {
             finalFrame.gameObject.SetActive(true);
-            finalText.text = "You fell off the screen. Your score was : " + points + " points!";
+            finalText.text = "You fell off the screen. Your score was : " + Mathf.FloorToInt(points) + " points!";
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                SceneManager.LoadScene("SampleScene");
+            }
             Time.timeScale = 0;
         }
 
         //POINTS = SCORE
-        scoreText.text = "score: " + points;
+        scoreText.text = "score: " + Mathf.FloorToInt(points);
 
         //adding points based on time - every 5s add some points
         pointTime -= Time.deltaTime;
@@ -121,7 +135,54 @@ public class LevelManager : MonoBehaviour
             anotherJumpCount = anotherJumpCountBase;
         }
 
+        if(fistStageOfChaos == true)
+        {
+            if(pl.gotDoubleJump == true && counted == false)
+            {
+                doubleJumpCount += 1;
+                counted = true;
+            }else if(pl.gotDoubleJump == false)
+            {
+                counted = false;
+            }
+        }
 
+
+        //STAGE 2
+        if (doubleJumpCount == 3)
+        {
+            //turns off the counting as it is not needed anymore
+            fistStageOfChaos = false;
+            secondStageOfChaos = true;
+            //anounces the stage 2 of chaos
+            StartCoroutine(ChaosStageTwoOn());
+            //disables all the additional spawners from previous stage
+            chaosCollection.gameObject.SetActive(false);
+            doubleJumpCount++;
+            startSecondTimer = true;
+        }
+
+        //second stage timer
+        if(startSecondTimer == true)
+        {
+            secondStageTimer -= Time.deltaTime;
+            if(secondStageTimer <= 0)
+            {
+                //turn off second stage
+                secondStageOfChaos = false;
+                //start STAGE 3
+                thirdStageOfChaos = true;
+                StartCoroutine(ChaosStageThreeOn());
+                //enable all platforms from stage one again
+                //also everything from stage 2 will remain ON
+                chaosCollection.gameObject.SetActive(true);
+                startSecondTimer = false;
+            }
+        }
+
+        //STAGE 3
+        //start timer of third stage
+        //after the timer runs out get to the finale .. not sure what that is
 
 
     }
@@ -142,6 +203,25 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator ChaosOn()
     {
+        //1st stage of chaos
+        textAsGameObject.gameObject.SetActive(true);
+        text.text = "Let!";
+        yield return new WaitForSeconds(1);
+        textAsGameObject.gameObject.SetActive(false);
+    }
+
+    IEnumerator ChaosStageTwoOn()
+    {
+        //1st stage of chaos
+        textAsGameObject.gameObject.SetActive(true);
+        text.text = "There Be";
+        yield return new WaitForSeconds(1);
+        textAsGameObject.gameObject.SetActive(false);
+    }
+
+    IEnumerator ChaosStageThreeOn()
+    {
+        //1st stage of chaos
         textAsGameObject.gameObject.SetActive(true);
         text.text = "Chaos!";
         yield return new WaitForSeconds(1);
@@ -158,24 +238,54 @@ public class LevelManager : MonoBehaviour
         //if chaos is ON the points are doubled
         if(fistStageOfChaos == true)
         {
-            points += number * 2;
+            points += number * 1.5f;
         }else
         {
             points += number;
         }
-        
+
+        if (secondStageOfChaos == true)
+        {
+            points += number * 2;
+        }
+        else
+        {
+            points += number;
+        }
+
+        if (thirdStageOfChaos == true)
+        {
+            points += number * 3;
+        }
+        else
+        {
+            points += number;
+        }
+
     }
 
-    //countdown - then start the game
-
-    //score count
-
-    //count jumps and after 20 jumps enter chaos
-    // announce Chaos
-
-    //next prepare that with different jump count you will display Let There Be Chaos ... one by one
-
-    //end game - show score and play again button
+   /* DEV PLAN
+    * 
+    * 3 stages of Chaos
+    *   1st stage adds platforms and multiplies score by 2
+    *       - count double jumps powerup pickups - after 3 pickups move to stage 2
+    *   
+    *   2nd stage
+    *   - turns off platforms and dash?
+    *   - dash is now collectible?
+    *   - randomly spawns new pick up effects
+    *       
+    *   - and 
+    *   
+    *   3rd stage after another 20 secs
+    *   - all together
+    *   - will last only 20s
+    *   
+    *   
+    *   ending shows up
+    
+    
+    */
 
 
 }
