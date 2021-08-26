@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TopSpawnPoint : MonoBehaviour
 {
-    public GameObject box;
+    public GameObject[] box;
     public LevelManager lm;
 
     private float timer;
@@ -23,7 +23,8 @@ public class TopSpawnPoint : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
-                Instantiate(box, transform.position, Quaternion.identity);
+                int rand = Random.Range(0, box.Length);
+                Instantiate(box[rand], transform.position, Quaternion.identity);
                 timer = timerStartTime;
             }
         }else
@@ -31,7 +32,8 @@ public class TopSpawnPoint : MonoBehaviour
             fasterSpawn -= Time.deltaTime;
             if (fasterSpawn <= 0)
             {
-                Instantiate(box, transform.position, Quaternion.identity);
+                int rand = Random.Range(0, box.Length);
+                Instantiate(box[rand], transform.position, Quaternion.identity);
                 fasterSpawn = timerStartTime/2;
             }
         }
