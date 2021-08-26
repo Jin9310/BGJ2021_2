@@ -49,7 +49,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int doubleJumpCount;
     [SerializeField] private bool counted = false;
     private bool startSecondTimer = false;
-    private float secondStageTimer = 20f;
+    private float secondStageTimer = 30f;
 
     //second stage variables
     public bool secondStageOfChaos = false;
