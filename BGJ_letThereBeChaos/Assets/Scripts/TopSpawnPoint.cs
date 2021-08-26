@@ -5,22 +5,37 @@ using UnityEngine;
 public class TopSpawnPoint : MonoBehaviour
 {
     public GameObject box;
+    public LevelManager lm;
 
     private float timer;
     [SerializeField] private float timerStartTime = 3f;
+    private float fasterSpawn;
 
     private void Start()
     {
         timer = timerStartTime;
+        fasterSpawn = timerStartTime / 2;
     }
     private void Update()
     {
-        timer -= Time.deltaTime;
-        if(timer <= 0)
+        if(lm.thirdStageOfChaos != true)
         {
-            Instantiate(box, transform.position, Quaternion.identity);
-            timer = timerStartTime;
+            timer -= Time.deltaTime;
+            if (timer <= 0)
+            {
+                Instantiate(box, transform.position, Quaternion.identity);
+                timer = timerStartTime;
+            }
+        }else
+        {
+            fasterSpawn -= Time.deltaTime;
+            if (fasterSpawn <= 0)
+            {
+                Instantiate(box, transform.position, Quaternion.identity);
+                fasterSpawn = timerStartTime/2;
+            }
         }
+        
     }
 
 }

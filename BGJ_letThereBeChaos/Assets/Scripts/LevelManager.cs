@@ -64,6 +64,9 @@ public class LevelManager : MonoBehaviour
     private float thirdStageTimer = 20f;
 
 
+    //final stage = credits
+    public bool finalStage = false;
+
 
     private void Start()
     {
@@ -127,35 +130,42 @@ public class LevelManager : MonoBehaviour
         //POINTS = SCORE
         scoreText.text = "score: " + Mathf.FloorToInt(points);
 
-        //adding points based on time - every 5s add some points
-        pointTime -= Time.deltaTime;
-        if(pointTime <= 0)
+        if (finalStage != true)
         {
-            //give points
-            Points(2);
-            //restart timer
-            pointTime = pointTimeStart;
-        }
-
-        //every fifth jump will get player random amount of score
-        randomJumpScore = Random.Range(1,5);
-        if(anotherJumpCount >= 5)
-        {
-            Points(randomJumpScore);
-            anotherJumpCount = anotherJumpCountBase;
-        }
-
-        if(fistStageOfChaos == true)
-        {
-            if(pl.gotDoubleJump == true && counted == false)
+            //adding points based on time - every 5s add some points
+               pointTime -= Time.deltaTime;
+            if(pointTime <= 0)
             {
-                doubleJumpCount += 1;
-                counted = true;
-            }else if(pl.gotDoubleJump == false)
+                //give points
+                Points(2);
+                //restart timer
+                pointTime = pointTimeStart;
+            }
+
+            //every fifth jump will get player random amount of score
+        
+            randomJumpScore = Random.Range(1, 5);
+            if (anotherJumpCount >= 5)
             {
-                counted = false;
+                Points(randomJumpScore);
+                anotherJumpCount = anotherJumpCountBase;
+            }
+
+            if (fistStageOfChaos == true)
+            {
+                if (pl.gotDoubleJump == true && counted == false)
+                {
+                    doubleJumpCount += 1;
+                    counted = true;
+                }
+                else if (pl.gotDoubleJump == false)
+                {
+                    counted = false;
+                }
             }
         }
+
+        
 
 
         //STAGE 2
@@ -207,6 +217,7 @@ public class LevelManager : MonoBehaviour
             thirdStageTimer -= Time.deltaTime;
             if(thirdStageTimer <= 0)
             {
+                finalStage = true;
                 //turn off all spawners
                 chaosCollection.gameObject.SetActive(false);
                 chaosTwoCollection.gameObject.SetActive(false);
@@ -216,11 +227,12 @@ public class LevelManager : MonoBehaviour
                 //turn on side boundaries so player can' t fall off
                 finalBoundaries.gameObject.SetActive(true);
 
-                //final spawner will appear that will spawn credits and final score
+             }
+        }
 
-                //now show just placeholder for ending
-                FinalResults();
-            }
+        if(finalStage == true)
+        {
+            FinalResults();
         }
 
 

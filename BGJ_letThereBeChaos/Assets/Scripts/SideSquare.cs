@@ -27,6 +27,12 @@ public class SideSquare : MonoBehaviour
     private void Update()
     {
         timer -= Time.deltaTime;
+
+        if(timer > 1)
+        {
+            rb.gravityScale = 1f;
+        }
+
         if(timer <= 0)
         {
             Instantiate(puffEffect, transform.position, Quaternion.identity);
