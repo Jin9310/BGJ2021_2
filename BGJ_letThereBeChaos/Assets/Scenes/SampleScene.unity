@@ -3032,6 +3032,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 53918ad0660c62749b315bf1afa221c8, type: 3}
   - {fileID: 8300000, guid: 7e6db732dd18a5840816921dcda021f0, type: 3}
   - {fileID: 8300000, guid: 0b59a2f42579b9c468593d4a8a142696, type: 3}
+  soundCollection2:
+  - {fileID: 8300000, guid: 1eefef2d6aea20044b42c092e730789c, type: 3}
+  - {fileID: 8300000, guid: 61ecdc06d0bcd584cbf22d282bf18d4d, type: 3}
+  - {fileID: 8300000, guid: 9e50cbd130658d0408f48fde540bd9bd, type: 3}
+  - {fileID: 8300000, guid: f976f250317ce804fb8f91473e9eb7e3, type: 3}
+  soundCollection3:
+  - {fileID: 8300000, guid: 1fe18a7f9c1de674da98aa5b55a9260d, type: 3}
+  - {fileID: 8300000, guid: c6c032f10697a3642805095f8c5b18c9, type: 3}
+  - {fileID: 8300000, guid: 4941bb2eb1b76e540981f96d75d6aa0f, type: 3}
+  - {fileID: 8300000, guid: 689438463de05fd40a3c3207195acafe, type: 3}
   rand: 0
   lm: {fileID: 376625415}
 --- !u!82 &1251225482
@@ -3046,7 +3056,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
