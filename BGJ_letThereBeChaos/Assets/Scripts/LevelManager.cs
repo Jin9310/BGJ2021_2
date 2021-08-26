@@ -22,6 +22,10 @@ public class LevelManager : MonoBehaviour
 
     public GameObject chaosCollection;
     public GameObject chaosTwoCollection;
+    public GameObject chaosThreeCollection;
+    public GameObject basicSpawner;
+    public GameObject finalBoundaries;
+
     public GameObject textAsGameObject;
     public Text text;
 
@@ -56,7 +60,9 @@ public class LevelManager : MonoBehaviour
 
     //third stage variables
     public bool thirdStageOfChaos = false;
-    
+    private bool startThirdTimer = false;
+    private float thirdStageTimer = 20f;
+
 
 
     private void Start()
@@ -107,12 +113,14 @@ public class LevelManager : MonoBehaviour
 
         if(pl.playerFail == true)
         {
+            /*
             finalFrame.gameObject.SetActive(true);
             finalText.text = "You fell off the screen. Your score was : " + Mathf.FloorToInt(points) + " points!";
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 SceneManager.LoadScene("SampleScene");
-            }
+            }*/
+            FinalResults();
             Time.timeScale = 0;
         }
 
@@ -188,6 +196,33 @@ public class LevelManager : MonoBehaviour
         //STAGE 3
         //start timer of third stage
         //after the timer runs out get to the finale .. not sure what that is
+        if(thirdStageOfChaos == true)
+        {
+            chaosThreeCollection.gameObject.SetActive(true);
+            startThirdTimer = true;
+        }
+
+        if(startThirdTimer == true)
+        {
+            thirdStageTimer -= Time.deltaTime;
+            if(thirdStageTimer <= 0)
+            {
+                //turn off all spawners
+                chaosCollection.gameObject.SetActive(false);
+                chaosTwoCollection.gameObject.SetActive(false);
+                chaosThreeCollection.gameObject.SetActive(false);
+                basicSpawner.gameObject.SetActive(false);
+
+                //turn on side boundaries so player can' t fall off
+                finalBoundaries.gameObject.SetActive(true);
+
+                //final spawner will appear that will spawn credits and final score
+
+                //now show just placeholder for ending
+                FinalResults();
+            }
+        }
+
 
 
     }
@@ -267,6 +302,16 @@ public class LevelManager : MonoBehaviour
             points += number;
         }
 
+    }
+
+    private void FinalResults()
+    {
+        finalFrame.gameObject.SetActive(true);
+        finalText.text = "You fell off the screen. Your score was : " + Mathf.FloorToInt(points) + " points!";
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
     }
 
    /* DEV PLAN
