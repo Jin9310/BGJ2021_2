@@ -7,6 +7,9 @@ public class Player : MonoBehaviour
     public bool gotDoubleJump = false;
     public bool playerFail = false;
 
+    //sounds
+    public GameObject[] jumpSoundCollection;
+    public GameObject[] dashSoundCollection;
 
     private float _speed = 5f;
     private float _jumpForce = 6f;
@@ -169,11 +172,18 @@ public class Player : MonoBehaviour
             Input.GetKeyDown(KeyCode.W) ||
             Input.GetKeyDown(KeyCode.Space)) && _extraJumps > 0)
         {
+            int rand = Random.Range(0, jumpSoundCollection.Length);
+            Instantiate(jumpSoundCollection[rand], transform.position, Quaternion.identity);
             rb.velocity = Vector2.up * _jumpForce;
             _extraJumps--;
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow) && _extraJumps == 0 && _isGrounded == true)
+        else if ((Input.GetKeyDown(KeyCode.UpArrow) ||
+            Input.GetKeyDown(KeyCode.W) ||
+            Input.GetKeyDown(KeyCode.Space)) && _extraJumps == 0 && _isGrounded == true)
         {
+            int rand = Random.Range(0, jumpSoundCollection.Length);
+            Instantiate(jumpSoundCollection[rand], transform.position, Quaternion.identity);
+
             rb.velocity = Vector2.up * _jumpForce;
         }
     }
@@ -184,6 +194,8 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
+                int rand = Random.Range(0, dashSoundCollection.Length);
+                Instantiate(dashSoundCollection[rand], transform.position, Quaternion.identity);
 
                 StartCoroutine(Dummy());
                 dashIsReady = false;
