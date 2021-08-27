@@ -6312,6 +6312,7 @@ MonoBehaviour:
   dustEffect: {fileID: 3147773291736962396, guid: 3243c0a9ee68a434bb79b628072d1c35, type: 3}
   jumpPickup: {fileID: 381496440124921941, guid: 179843f47234282458e558498567c6a4, type: 3}
   lm: {fileID: 376625415}
+  pickUpSound: {fileID: 6776312185628631411, guid: 40c227a70236d344c924c25556584566, type: 3}
 --- !u!50 &2036297228
 Rigidbody2D:
   serializedVersion: 4

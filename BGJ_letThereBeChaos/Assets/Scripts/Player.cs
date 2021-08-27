@@ -50,6 +50,8 @@ public class Player : MonoBehaviour
 
     private ShakeCamera shake;
 
+    public GameObject pickUpSound;
+
 
     private void Start()
     {
@@ -155,6 +157,9 @@ public class Player : MonoBehaviour
 
         if (collision.CompareTag("JumpPwrUp"))
         {
+            //sound
+            Instantiate(pickUpSound, transform.position, Quaternion.identity);
+            //shake it
             shake.CamShake();
             //add random amount of points
             lm.Points(randomPointsFromUpgrade);
