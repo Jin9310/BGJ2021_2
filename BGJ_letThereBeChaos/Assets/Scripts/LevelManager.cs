@@ -78,6 +78,15 @@ public class LevelManager : MonoBehaviour
     float creditTimerStart = 5f;
 
 
+    //sounds
+    public GameObject sound1;
+    public GameObject sound2;
+    public GameObject sound3;
+    public GameObject sound4;
+    public GameObject sound5;
+    public GameObject sound6;
+    public GameObject sound7;
+
 
 
     private void Start()
@@ -130,13 +139,6 @@ public class LevelManager : MonoBehaviour
 
         if(pl.playerFail == true)
         {
-            /*
-            finalFrame.gameObject.SetActive(true);
-            finalText.text = "You fell off the screen. Your score was : " + Mathf.FloorToInt(points) + " points!";
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                SceneManager.LoadScene("SampleScene");
-            }*/
             FinalResults();
             Time.timeScale = 0;
         }
@@ -276,13 +278,22 @@ public class LevelManager : MonoBehaviour
     IEnumerator StartCountDown()
     {
         text.text = "3";
+        //sound
+        Instantiate(sound1, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(1f);
         text.text = "2";
+        //sound
+        Instantiate(sound2, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(1f);
         text.text = "1";
+        //sound
+        Instantiate(sound3, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(1f);
         text.text = "GO";
+        //sound
+        Instantiate(sound4, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(1f);
+        //sound
         startGame = true;
         textAsGameObject.gameObject.SetActive(false);
     }
@@ -292,6 +303,7 @@ public class LevelManager : MonoBehaviour
         //1st stage of chaos
         textAsGameObject.gameObject.SetActive(true);
         text.text = "Let!";
+        Instantiate(sound5, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(1);
         textAsGameObject.gameObject.SetActive(false);
     }
@@ -301,6 +313,7 @@ public class LevelManager : MonoBehaviour
         //1st stage of chaos
         textAsGameObject.gameObject.SetActive(true);
         text.text = "There Be";
+        Instantiate(sound6, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(1);
         textAsGameObject.gameObject.SetActive(false);
     }
@@ -310,6 +323,7 @@ public class LevelManager : MonoBehaviour
         //1st stage of chaos
         textAsGameObject.gameObject.SetActive(true);
         text.text = "Chaos!";
+        Instantiate(sound7, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(1);
         textAsGameObject.gameObject.SetActive(false);
     }

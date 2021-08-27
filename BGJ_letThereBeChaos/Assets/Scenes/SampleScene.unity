@@ -11648,6 +11648,34 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 680629695}
     - target: {fileID: 3643036402124214904, guid: 46f7d8560b62ef141ae4114141bc74ac, type: 3}
+      propertyPath: sound1
+      value: 
+      objectReference: {fileID: 2110805273859904589, guid: 59ff8a8c1ccde434b87be10e9e96ac2e, type: 3}
+    - target: {fileID: 3643036402124214904, guid: 46f7d8560b62ef141ae4114141bc74ac, type: 3}
+      propertyPath: sound2
+      value: 
+      objectReference: {fileID: 5838762159915092274, guid: b15428ef67003b34ab8f04c7e7975068, type: 3}
+    - target: {fileID: 3643036402124214904, guid: 46f7d8560b62ef141ae4114141bc74ac, type: 3}
+      propertyPath: sound3
+      value: 
+      objectReference: {fileID: 1691267758591931475, guid: 317d064107e7edb4bb3286e3ebbb4ff9, type: 3}
+    - target: {fileID: 3643036402124214904, guid: 46f7d8560b62ef141ae4114141bc74ac, type: 3}
+      propertyPath: sound4
+      value: 
+      objectReference: {fileID: 555501645806432600, guid: 9bc439476359e3444b5df0f647ecd07a, type: 3}
+    - target: {fileID: 3643036402124214904, guid: 46f7d8560b62ef141ae4114141bc74ac, type: 3}
+      propertyPath: sound5
+      value: 
+      objectReference: {fileID: 6204613212223141795, guid: 0c445d0a281d80f4eb99605e8f89ad59, type: 3}
+    - target: {fileID: 3643036402124214904, guid: 46f7d8560b62ef141ae4114141bc74ac, type: 3}
+      propertyPath: sound6
+      value: 
+      objectReference: {fileID: 7956089428309065894, guid: 81fad741aeb3541429b464ba083b8440, type: 3}
+    - target: {fileID: 3643036402124214904, guid: 46f7d8560b62ef141ae4114141bc74ac, type: 3}
+      propertyPath: sound7
+      value: 
+      objectReference: {fileID: 709748832433362385, guid: a1b35778335f9374e951cbcf94eb80ae, type: 3}
+    - target: {fileID: 3643036402124214904, guid: 46f7d8560b62ef141ae4114141bc74ac, type: 3}
       propertyPath: finalText
       value: 
       objectReference: {fileID: 1019480984}
