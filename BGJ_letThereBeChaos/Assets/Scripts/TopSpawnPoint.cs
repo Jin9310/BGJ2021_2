@@ -11,8 +11,12 @@ public class TopSpawnPoint : MonoBehaviour
     [SerializeField] private float timerStartTime = 3f;
     private float fasterSpawn;
 
+    private ShakeCamera shake;
+
+
     private void Start()
     {
+        shake = GameObject.FindGameObjectWithTag("ScreenShake").GetComponent<ShakeCamera>();
         timer = timerStartTime;
         fasterSpawn = timerStartTime / 2;
     }
@@ -25,6 +29,7 @@ public class TopSpawnPoint : MonoBehaviour
             {
                 int rand = Random.Range(0, box.Length);
                 Instantiate(box[rand], transform.position, Quaternion.identity);
+                shake.CamShake();
                 timer = timerStartTime;
             }
         }else
@@ -34,6 +39,7 @@ public class TopSpawnPoint : MonoBehaviour
             {
                 int rand = Random.Range(0, box.Length);
                 Instantiate(box[rand], transform.position, Quaternion.identity);
+                shake.CamShake();
                 fasterSpawn = timerStartTime/2;
             }
         }

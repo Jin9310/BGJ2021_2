@@ -48,8 +48,12 @@ public class Player : MonoBehaviour
 
     private int randomPointsFromUpgrade;
 
+    private ShakeCamera shake;
+
+
     private void Start()
     {
+        shake = GameObject.FindGameObjectWithTag("ScreenShake").GetComponent<ShakeCamera>();
         _extraJumps = _basicJumpValue;
         rb = GetComponent<Rigidbody2D>();
     }
@@ -151,6 +155,7 @@ public class Player : MonoBehaviour
 
         if (collision.CompareTag("JumpPwrUp"))
         {
+            shake.CamShake();
             //add random amount of points
             lm.Points(randomPointsFromUpgrade);
             //Particle effect
@@ -194,6 +199,7 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
+                shake.CamShake();
                 int rand = Random.Range(0, dashSoundCollection.Length);
                 Instantiate(dashSoundCollection[rand], transform.position, Quaternion.identity);
 

@@ -7,6 +7,7 @@ TagManager:
   - OutOfTheScreen
   - JumpPwrUp
   - Dashing
+  - ScreenShake
   layers:
   - Default
   - TransparentFX
