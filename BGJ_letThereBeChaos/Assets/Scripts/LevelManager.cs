@@ -41,6 +41,7 @@ public class LevelManager : MonoBehaviour
 
     public GameObject finalFrame;
     public Text finalText;
+    public Text randomChaosQuote;
 
     public Text scoreText;
 
@@ -66,10 +67,23 @@ public class LevelManager : MonoBehaviour
 
     //final stage = credits
     public bool finalStage = false;
+    public GameObject finalScreenFrame;
+    public Text textToBeGenerated;
+    public Text finalScoreToBeDisplayed;
+
+    private int randomQuote;
+
+    int timeNumber = 1;
+    float creditsTimer;
+    float creditTimerStart = 5f;
+
+
 
 
     private void Start()
     {
+        creditsTimer = creditTimerStart;
+        randomQuote = Random.Range(0, 5);
         pointTime = pointTimeStart;
         anotherJumpCount = anotherJumpCountBase;
         Time.timeScale = 1;
@@ -232,7 +246,27 @@ public class LevelManager : MonoBehaviour
 
         if(finalStage == true)
         {
-            FinalResults();
+            finalScreenFrame.gameObject.SetActive(true);
+            finalScoreToBeDisplayed.text = "Final score: " + Mathf.FloorToInt(points);
+
+            //some timer
+            creditsTimer -= Time.deltaTime;
+            if(creditsTimer <= 0)
+            {
+                if(timeNumber < 6)
+                {
+                    timeNumber++;
+                }
+                creditsTimer = creditTimerStart;
+            }
+
+            TypeCredits();
+
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                SceneManager.LoadScene("SampleScene");
+            }
+
         }
 
 
@@ -320,11 +354,54 @@ public class LevelManager : MonoBehaviour
     {
         finalFrame.gameObject.SetActive(true);
         finalText.text = "You fell off the screen. Your score was : " + Mathf.FloorToInt(points) + " points!";
+
+        switch (randomQuote)
+        {
+            case 0:
+                randomChaosQuote.text = "chaos - complete disorder and confusion";
+                break;
+            case 1:
+                randomChaosQuote.text = "chaos - the property of a complex system whose behaviour is so unpredictable as to appear random, owing to great sensitivity to small changes in conditions";
+                break;
+            case 2:
+                randomChaosQuote.text = "chaos - the formless matter supposed to have existed before the creation of the universe";
+                break;
+            case 3:
+                randomChaosQuote.text = " chaos - a state of utter confusion or disorder";
+                break;
+            case 4:
+                randomChaosQuote.text = "chaos - a total lack of organization or order";
+                break;
+        }
+
         if (Input.GetKeyDown(KeyCode.Return))
         {
             SceneManager.LoadScene("SampleScene");
         }
     }
+
+    private void TypeCredits()
+    {
+        switch (timeNumber)
+        {
+            case 1:
+                textToBeGenerated.text = "The game was made as part of Brackeys Game Jam";
+                break;
+            case 2:
+                textToBeGenerated.text = "Theme of the jam was : Let there be chaos";
+                break;
+            case 3:
+                textToBeGenerated.text = "tools: UNITY, Photoshop, FL Studio, pen & paper";
+                break;
+            case 4:
+                textToBeGenerated.text = "Special thanks to my friends Lukas and Petr that helped me with early feedback and testing and to my wife for huge support.";
+                break;
+            case 5:
+                textToBeGenerated.text = "Thank you, dear player, for playing the game";
+                break;
+        }
+    }
+
 
    /* DEV PLAN
     * 
