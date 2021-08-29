@@ -7,6 +7,7 @@ public class SoundController : MonoBehaviour
     public AudioClip[] soundCollection;
     public AudioClip[] soundCollection2;
     public AudioClip[] soundCollection3;
+    //public AudioClip[] missingSoundCollection;
     public int rand;
 
     public LevelManager lm;
@@ -37,7 +38,7 @@ public class SoundController : MonoBehaviour
                 audioSource.Play();
             }
         }
-        else if (lm.finalStage == true)
+        else if (lm.finalStage == true || lm.fistStageOfChaos == true)
         {
             if (!audioSource.isPlaying)
             {

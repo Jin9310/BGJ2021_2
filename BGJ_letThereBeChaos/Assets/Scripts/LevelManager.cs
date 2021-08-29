@@ -11,7 +11,7 @@ public class LevelManager : MonoBehaviour
     private int anotherJumpCount;
     private int anotherJumpCountBase = 0;
     private int randomJumpScore;
-
+    private int dashCount;
 
     //POINTS SCORE
     public float points;
@@ -49,7 +49,7 @@ public class LevelManager : MonoBehaviour
 
 
     //CHAOS
-    private bool fistStageOfChaos = false;
+    public bool fistStageOfChaos = false;
     //first stage variables
     [SerializeField] private int doubleJumpCount;
     [SerializeField] private bool counted = false;
@@ -62,7 +62,7 @@ public class LevelManager : MonoBehaviour
     //third stage variables
     public bool thirdStageOfChaos = false;
     private bool startThirdTimer = false;
-    private float thirdStageTimer = 20f;
+    private float thirdStageTimer = 30f;
 
 
     //final stage = credits
@@ -75,7 +75,7 @@ public class LevelManager : MonoBehaviour
 
     int timeNumber = 1;
     float creditsTimer;
-    float creditTimerStart = 5f;
+    float creditTimerStart = 7f;
 
 
     //sounds
@@ -86,6 +86,9 @@ public class LevelManager : MonoBehaviour
     public GameObject sound5;
     public GameObject sound6;
     public GameObject sound7;
+
+    public Text jumpStats;
+    public Text dashStats;
 
 
 
@@ -110,6 +113,11 @@ public class LevelManager : MonoBehaviour
             {
                 jumpCount++;
                 anotherJumpCount++;
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                dashCount++;
             }
 
             if (jumpCount == 10)
@@ -242,7 +250,6 @@ public class LevelManager : MonoBehaviour
 
                 //turn on side boundaries so player can' t fall off
                 finalBoundaries.gameObject.SetActive(true);
-
              }
         }
 
@@ -250,6 +257,8 @@ public class LevelManager : MonoBehaviour
         {
             finalScreenFrame.gameObject.SetActive(true);
             finalScoreToBeDisplayed.text = "Final score: " + Mathf.FloorToInt(points);
+            jumpStats.text = "jumped " + jumpCount + " times";
+            dashStats.text = "dashed " + dashCount + " times";
 
             //some timer
             creditsTimer -= Time.deltaTime;
