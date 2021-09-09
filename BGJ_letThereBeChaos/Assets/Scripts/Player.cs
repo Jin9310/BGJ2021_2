@@ -209,7 +209,6 @@ public class Player : MonoBehaviour
                 Instantiate(dashSoundCollection[rand], transform.position, Quaternion.identity);
 
                 StartCoroutine(Dummy());
-                dashIsReady = false;
 
                 if (_facingRight == true)
                 {
@@ -219,6 +218,8 @@ public class Player : MonoBehaviour
                 {
                     StartCoroutine(Dash(-1));
                 }
+                
+                dashIsReady = false;
             }
         }
     }
@@ -232,7 +233,7 @@ public class Player : MonoBehaviour
         rb.gravityScale = 0;
         yield return new WaitForSeconds(.2f);
         isDashing = false;
-        rb.gravityScale = gravity;
+        rb.gravityScale = 1;
     }
 
     IEnumerator Dummy()
